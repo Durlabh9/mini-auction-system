@@ -56,7 +56,7 @@ export const getAuctionById = async (req, res) => {
             if (new Date() > new Date(auction.endTime) && auction.status === 'active') {
             auction.status = 'ended';
             await auction.save();
-            console.log(`Auction ${auction.id} status updated to 'ended'.`);
+            
         }
      const highestBid = await Bid.findOne({ where: { auctionId: auction.id }, order: [['amount', 'DESC']] });
     const auctionData = auction.get({ plain: true });

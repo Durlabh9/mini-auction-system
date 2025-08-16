@@ -94,12 +94,7 @@ function AuctionRoomPage() {
     const isSeller = currentUser && currentUser.id === auction.sellerId;
     const isHighestBidder = currentUser && auction.highestBidderId && Number(currentUser.id) === Number(auction.highestBidderId);
 
-    // --- ADD THIS DEBUG BLOCK ---
-    console.log("--- BIDDER ID DEBUG ---");
-    console.log("Current User ID:", currentUser?.id, "(Type:", typeof currentUser?.id, ")");
-    console.log("Highest Bidder ID:", auction.highestBidderId, "(Type:", typeof auction.highestBidderId, ")");
-    console.log("-----------------------");
-    // ----------------------------
+
 
     return (
         <div style={{ padding: '1rem' }}>
@@ -112,7 +107,7 @@ function AuctionRoomPage() {
                 <Countdown endTime={auction.endTime} />
             </div>
 
-            <h2>Current Highest Bid: ${currentBid}</h2>
+            <h2>Current Highest Bid: ₹{currentBid}</h2>
 
             {/* --- Show Bidding Form --- */}
             {!isAuctionOver && !isSeller && (
@@ -121,7 +116,7 @@ function AuctionRoomPage() {
                         type="number"
                         value={bidAmount}
                         onChange={(e) => setBidAmount(e.target.value)}
-                        placeholder={`Your bid (min ${Number(currentBid) + Number(auction.bidIncrement)})`}
+                        placeholder={`Your bid (min ₹{Number(currentBid) + Number(auction.bidIncrement)})`}
                         step="0.01"
                         min={Number(currentBid) + Number(auction.bidIncrement)}
                         required
@@ -167,7 +162,7 @@ function AuctionRoomPage() {
             {auction.status === 'counter-offered' && isHighestBidder && (
                 <div style={{ marginTop: '20px', padding: '20px', border: '1px solid #007bff', borderRadius: '8px' }}>
                     <h3>Counter-Offer from Seller</h3>
-                    <p>The seller has made a counter-offer of: <strong>${auction.counterOfferPrice}</strong></p>
+                    <p>The seller has made a counter-offer of: <strong>₹{auction.counterOfferPrice}</strong></p>
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <button onClick={handleAcceptCounter}>Accept Offer</button>
                         <button onClick={handleRejectCounter} style={{ backgroundColor: '#dc3545' }}>Reject Offer</button>

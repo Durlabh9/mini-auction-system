@@ -51,7 +51,7 @@ return (
                 <div className="auction-details">
                   <h3>{auction.itemName}</h3>
                   <p>Sold by: {auction.seller?.username || 'Unknown'}</p>
-                  <p>Current Bid: <strong>${auction.currentPrice}</strong></p>
+                  <p>Current Bid: <strong>₹{auction.currentPrice}</strong></p>
                   <p>Ends at: {new Date(auction.endTime).toLocaleString()}</p>
                   <button>Place Bid</button>
                 </div>
