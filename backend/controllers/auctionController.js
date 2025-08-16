@@ -44,29 +44,47 @@ export const getAllAuctions = async (req, res) => {
     res.status(500).json({ message: 'Error fetching auctions', error: error.message });
   }
 };
+
+
 export const getAuctionById = async (req, res) => {
-  try {
-    const auction = await Auction.findByPk(req.params.id, {
-      include:[ { model: User, as: 'seller', attributes: ['username'] },
-       { model: User, as: 'winner', attributes: ['username'] }]
-    });
-    if (!auction) {
-      return res.status(404).json({ message: 'Auction not found' });
-    }
-            if (new Date() > new Date(auction.endTime) && auction.status === 'active') {
+    try {
+        const auction = await Auction.findByPk(req.params.id, {
+            include: [
+                { model: User, as: 'seller', attributes: ['username'] },
+                { model: User, as: 'winner', attributes: ['username'] }
+            ]
+        });
+
+        if (!auction) {
+            return res.status(404).json({ message: 'Auction not found' });
+        }
+
+        // Auto-update status from active to ended if time has passed
+        if (new Date() > new Date(auction.endTime) && auction.status === 'active') {
             auction.status = 'ended';
             await auction.save();
-            
         }
-     const highestBid = await Bid.findOne({ where: { auctionId: auction.id }, order: [['amount', 'DESC']] });
-    const auctionData = auction.get({ plain: true });
+        
+        // --- THIS IS THE CRUCIAL LOGIC ---
+        // Find the highest bid to identify the highest bidder
+        const highestBid = await Bid.findOne({ 
+            where: { auctionId: auction.id }, 
+            order: [['amount', 'DESC']] 
+        });
+        
+        // Clone the auction data to a plain object
+        const auctionData = auction.get({ plain: true });
+
+        // If a highest bid exists, add the bidder's ID to the response
         if (highestBid) {
             auctionData.highestBidderId = highestBid.bidderId;
         }
-     res.status(200).json(auction);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching auction', error: error.message });
-  }
+        // -----------------------------
+
+        res.status(200).json(auctionData);
+    } catch (error) { 
+        res.status(500).json({ message: 'Error fetching auction', error: error.message });
+     }
 };
 
 export const acceptBid = async (req, res) => {
