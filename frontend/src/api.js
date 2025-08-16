@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-
-const baseURL = window.location.hostname === 'localhost'
-  ? 'http://localhost:3001'
-  : 'https://mini-auction-system-wze2.onrender.com';
+// Detect environment: use localhost for development, Render URL for production
+const baseURL =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:3001/api'
+    : 'https://mini-auction-system-wze2.onrender.com'; // ✅ replace with your actual backend URL
 
 const api = axios.create({
-  baseURL: baseURL,
+  baseURL,
 });
 
 api.interceptors.request.use(
