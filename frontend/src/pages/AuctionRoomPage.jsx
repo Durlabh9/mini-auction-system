@@ -116,7 +116,7 @@ function AuctionRoomPage() {
                         type="number"
                         value={bidAmount}
                         onChange={(e) => setBidAmount(e.target.value)}
-                        placeholder={`Your bid (min ₹{Number(currentBid) + Number(auction.bidIncrement)})`}
+                        placeholder={`Your bid (min ${Number(currentBid) + Number(auction.bidIncrement)})`}
                         step="0.01"
                         min={Number(currentBid) + Number(auction.bidIncrement)}
                         required
