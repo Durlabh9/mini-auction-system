@@ -5,7 +5,12 @@ import io from 'socket.io-client';
 import api from '../api';
 import Countdown from '../components/Countdown';
 
-const socket = io('http://localhost:3001');
+// This makes the WebSocket URL dynamic
+const SOCKET_URL = window.location.hostname === 'localhost'
+  ? 'http://localhost:3001'
+  : 'https://mini-auction-system-wze2.onrender.com';
+
+const socket = io(SOCKET_URL);
 
 function AuctionRoomPage() {
     const { id } = useParams();
