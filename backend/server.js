@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const httpServer = createServer(app);
 
-initSocketIO(httpServer);
+const io = initSocketIO(httpServer); 
 
 const PORT = process.env.PORT || 3001;
 
@@ -41,7 +41,8 @@ const startServer = async () => {
 
 
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use('/api/auth', authRoutes);
+app.use('/api/auctions', auctionRoutes(io));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

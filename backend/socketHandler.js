@@ -84,4 +84,5 @@ export const initSocketIO = (httpServer) => {
       }
     });
   });
+   return io;
 };

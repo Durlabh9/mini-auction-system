@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo ,useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import io from 'socket.io-client';
@@ -26,17 +26,19 @@ function AuctionRoomPage() {
         return token ? jwtDecode(token) : null;
     }, []);
 
+    const fetchAuction = useCallback(async () => {
+        try {
+            const response = await api.get(`/auctions/${id}`);
+            setAuction(response.data);
+            setCurrentBid(response.data.currentPrice);
+        } catch (error) {
+            console.error("Failed to fetch auction", error);
+            navigate('/');
+        }
+    }, [id, navigate]);
+
     useEffect(() => {
-        const fetchAuction = async () => {
-            try {
-                const response = await api.get(`/auctions/${id}`);
-                setAuction(response.data);
-                setCurrentBid(response.data.currentPrice);
-            } catch (error) {
-                console.error("Failed to fetch auction", error);
-                navigate('/');
-            }
-        };
+        
         fetchAuction();
 
         if (currentUser) {
@@ -48,12 +50,17 @@ function AuctionRoomPage() {
         socket.on('bidError', (error) => alert(error.message));
         socket.on('outbid', (data) => alert(data.message));
 
+         socket.on('auctionUpdated', () => {
+            console.log('Auction status changed, re-fetching data...');
+            fetchAuction();
+        });
         return () => {
             socket.off('newHighestBid');
             socket.off('bidError');
             socket.off('outbid');
+            socket.off('auctionUpdated');
         };
-    }, [id, navigate, currentUser]);
+    }, [id, navigate, currentUser,fetchAuction]);
 
     const handleBidSubmit = (e) => {
         e.preventDefault();

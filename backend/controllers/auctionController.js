@@ -69,7 +69,7 @@ export const getAuctionById = async (req, res) => {
   }
 };
 
-export const acceptBid = async (req, res) => {
+export const acceptBid = async (req, res,io) => {
   try {
     const { id } = req.params;
 
@@ -96,19 +96,21 @@ export const acceptBid = async (req, res) => {
     });
 
     if (winningBid) {
-      auction.winnerId = winningBid.bidderId;
-    }
-    
+      auction.winnerId = winningBid.bidderId;    
     auction.status = 'closed';
     await auction.save();
 
-    if (winningBid) {
       const seller = auction.seller;
       const buyer = winningBid.bidder;
       
       const invoiceBuffer = await generateInvoicePDF(seller, buyer, auction);
       await sendConfirmationEmails(seller, buyer, auction, invoiceBuffer);
-    }
+       io.to(`auction-${id}`).emit('auctionUpdated'); 
+    }else {
+            auction.status = 'closed'; // Close with no winner if no bids
+            await auction.save();
+            io.to(`auction-${id}`).emit('auctionUpdated'); // Broadcast update
+        }
 
     res.status(200).json({ message: 'Bid accepted and auction closed.', auction });
   } catch (error) {
@@ -117,7 +119,7 @@ export const acceptBid = async (req, res) => {
   }
 };
 
-export const rejectBid = async (req, res) => {
+export const rejectBid = async (req, res, io) => {
   try {
     const { id } = req.params;
     const auction = await Auction.findByPk(id);
@@ -132,7 +134,7 @@ export const rejectBid = async (req, res) => {
 
     auction.status = 'rejected';
     await auction.save();
-
+ io.to(`auction-${id}`).emit('auctionUpdated');
     
     
     res.status(200).json({ message: 'The highest bid has been rejected.', auction });
@@ -142,7 +144,7 @@ export const rejectBid = async (req, res) => {
 };
 
 
-export const makeCounterOffer = async (req, res) => {
+export const makeCounterOffer = async (req, res,io) => {
   try {
     const { id } = req.params;
     const { newPrice } = req.body;
@@ -159,7 +161,8 @@ export const makeCounterOffer = async (req, res) => {
     auction.status = 'counter-offered';
     auction.counterOfferPrice = newPrice;
     await auction.save();
-    
+     const room = `auction-${id}`;
+    io.to(room).emit('auctionUpdated');
     res.status(200).json({ message: 'Counter-offer made.', auction });
   } catch (error) {
     res.status(500).json({ message: 'Error making counter-offer', error: error.message });
@@ -193,7 +196,7 @@ export const acceptCounterOffer = async (req, res) => {
     const buyer = highestBid.bidder;
     const invoiceBuffer = await generateInvoicePDF(seller, buyer, auction);
     await sendConfirmationEmails(seller, buyer, auction, invoiceBuffer);
-
+io.to(`auction-${id}`).emit('auctionUpdated'); 
     res.status(200).json({ message: 'Counter-offer accepted.', auction });
   } catch (error) {
     res.status(500).json({ message: 'Error accepting counter-offer.', error: error.message });
@@ -213,6 +216,7 @@ export const rejectCounterOffer = async (req, res) => {
 
         auction.status = 'rejected';
         await auction.save();
+        io.to(`auction-${id}`).emit('auctionUpdated');
         res.status(200).json({ message: 'Counter-offer rejected.', auction });
     } catch (error) {
         res.status(500).json({ message: 'Error rejecting counter-offer.', error: error.message });
