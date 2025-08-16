@@ -4,7 +4,7 @@ import axios from 'axios';
 const baseURL =
   window.location.hostname === 'localhost'
     ? 'http://localhost:3001/api'
-    : 'https://mini-auction-system-wze2.onrender.com'; // ✅ replace with your actual backend URL
+    : 'https://mini-auction-system-wze2.onrender.com/api'; // ✅ replace with your actual backend URL
 
 const api = axios.create({
   baseURL,
