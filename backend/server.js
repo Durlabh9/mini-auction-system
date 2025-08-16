@@ -46,7 +46,7 @@ const startServer = async () => {
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/auth', authRoutes);
-app.use('/api/auctions', auctionRoutes(io));
+app.use('/api/auctions', auctionRoutes);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
