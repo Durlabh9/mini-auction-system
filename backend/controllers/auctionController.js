@@ -69,7 +69,8 @@ export const getAuctionById = async (req, res) => {
   }
 };
 
-export const acceptBid = async (req, res,io) => {
+export const acceptBid = async (req, res) => {
+  const { io } = req;
   try {
     const { id } = req.params;
 
@@ -119,7 +120,8 @@ export const acceptBid = async (req, res,io) => {
   }
 };
 
-export const rejectBid = async (req, res, io) => {
+export const rejectBid = async (req, res) => {
+  const { io } = req;
   try {
     const { id } = req.params;
     const auction = await Auction.findByPk(id);
@@ -144,7 +146,8 @@ export const rejectBid = async (req, res, io) => {
 };
 
 
-export const makeCounterOffer = async (req, res,io) => {
+export const makeCounterOffer = async (req, res) => {
+  const { io } = req;
   try {
     const { id } = req.params;
     const { newPrice } = req.body;
@@ -171,6 +174,7 @@ export const makeCounterOffer = async (req, res,io) => {
 
 
 export const acceptCounterOffer = async (req, res) => {
+  const { io } = req;
   try {
     const { id } = req.params;
     const auction = await Auction.findByPk(id, { include: ['seller'] });
@@ -204,6 +208,7 @@ io.to(`auction-${id}`).emit('auctionUpdated');
 };
 
 export const rejectCounterOffer = async (req, res) => {
+  const { io } = req;
     try {
         const { id } = req.params;
         const auction = await Auction.findByPk(id);

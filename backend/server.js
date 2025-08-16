@@ -24,6 +24,10 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 app.use('/api/auth', authRoutes); 
 app.use('/api/auctions', auctionRoutes);
 
