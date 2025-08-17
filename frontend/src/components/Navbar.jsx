@@ -28,7 +28,12 @@ function Navbar() {
         ) : (
           <>
             <Link to="/login" className="btn btn-ghost">Login</Link>
-            <Link to="/register" className="btn btn-primary">Register</Link>
+           <Link 
+  to="/register" 
+  className="btn" 
+  style={{ backgroundColor: '#D4AF37', color: '#0d1a26' }}>
+  Register
+</Link>
           </>
         )}
       </div>
