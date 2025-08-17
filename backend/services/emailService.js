@@ -16,7 +16,7 @@ export const sendConfirmationEmails = async (seller, buyer, auction, invoiceBuff
     to: seller.email,
     from: 'durlabh.khandelwal@gmail.com', 
     subject: `Congratulations! Your item "${auction.itemName}" has been sold.`,
-    text: `Your item, ${auction.itemName}, was sold for $${auction.currentPrice} to ${buyer.username}. An invoice is attached.`,
+    text: `Your item, ${auction.itemName}, was sold for ₹${auction.currentPrice} to ${buyer.username}. An invoice is attached.`,
     attachments: [attachment],
   };
 
@@ -24,7 +24,7 @@ export const sendConfirmationEmails = async (seller, buyer, auction, invoiceBuff
     to: buyer.email,
     from: 'durlabh.khandelwal@gmail.com', 
     subject: `Congratulations! You won the auction for "${auction.itemName}".`,
-    text: `You have successfully won the auction for ${auction.itemName} with a bid of $${auction.currentPrice}. An invoice is attached.`,
+    text: `You have successfully won the auction for ${auction.itemName} with a bid of ₹${auction.currentPrice}. An invoice is attached.`,
     attachments: [attachment],
   };
 

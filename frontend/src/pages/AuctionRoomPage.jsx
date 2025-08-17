@@ -7,7 +7,12 @@ import Countdown from '../components/Countdown';
 
 const SOCKET_URL = window.location.hostname === 'localhost' ? 'http://localhost:3001' : window.location.origin;
 const socket = io(SOCKET_URL);
-
+const ActionBox = ({ title, children }) => (
+  <div style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid var(--color-border)', borderRadius: '8px', background: 'var(--color-surface)' }}>
+    <h3 style={{ marginTop: 0, borderBottom: '1px solid var(--color-border)', paddingBottom: '0.5rem', marginBottom: '1rem' }}>{title}</h3>
+    {children}
+  </div>
+);
 function AuctionRoomPage() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -65,50 +70,74 @@ function AuctionRoomPage() {
     const isAuctionOver = new Date() > new Date(auction.endTime);
     const isSeller = currentUser && currentUser.id === auction.sellerId;
     const isHighestBidder = currentUser && auction.highestBidderId && Number(currentUser.id) === Number(auction.highestBidderId);
-
     return (
-        <div style={{ padding: '1rem' }}>
-            <h1>{auction.itemName}</h1>
-            <p>Sold by: {auction.seller.username}</p>
-            <p>{auction.description}</p>
-            <hr />
-            <div style={{ margin: '20px 0' }}><Countdown endTime={auction.endTime} /></div>
-            <h2>Current Highest Bid: ₹{currentBid}</h2>
-
-            {!isAuctionOver && !isSeller && (
-                <form onSubmit={handleBidSubmit}>
-                    <input type="number" value={bidAmount} onChange={(e) => setBidAmount(e.target.value)} placeholder={`Your bid (min ₹${Number(currentBid) + Number(auction.bidIncrement)})`} required />
-                    <button type="submit">Place Bid</button>
-                </form>
-            )}
-            {!isAuctionOver && isSeller && <p>This is your auction. Bids will appear in real-time.</p>}
-            
-            {isAuctionOver && isSeller && auction.status === 'ended' && (
-                 <div style={{ marginTop: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
-                    <h3>Seller Actions</h3>
-                    <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}><button onClick={handleAcceptBid}>Accept Bid</button><button onClick={handleRejectBid}>Reject Bid</button></div>
-                    <form onSubmit={handleCounterOffer}>
-                        <label>Make a Counter-Offer:</label>
-                        <input type="number" value={counterPrice} onChange={(e) => setCounterPrice(e.target.value)} placeholder="Enter new price" required />
-                        <button type="submit">Send Counter</button>
-                    </form>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: '3rem', alignItems: 'start' }}>
+            {/* Left Column: Image Gallery & Item Details */}
+            <div className="item-details-column">
+                
+                <div className="item-info" style={{ marginTop: '2rem' }}>
+                    <h1 style={{ marginTop: 0, fontSize: '2.5rem' }}>{auction.itemName}</h1>
+                    <p style={{ color: 'var(--color-text-muted)', fontSize: '1.1rem' }}>Sold by: {auction.seller.username}</p>
+                    <div className="details-tabs" style={{ marginTop: '2rem', borderTop: '1px solid var(--color-border)' }}>
+                        <h3 style={{ paddingTop: '1rem' }}>Description</h3>
+                        <p>{auction.description || "No description provided."}</p>
+                    </div>
                 </div>
-            )}
+            </div>
 
-            {auction.status === 'counter-offered' && isHighestBidder && (
-                <div style={{ marginTop: '20px', padding: '20px', border: '1px solid #007bff', borderRadius: '8px' }}>
-                    <h3>Counter-Offer from Seller</h3>
-                    <p>The seller has offered a price of: <strong>₹{auction.counterOfferPrice}</strong></p>
-                    <div><button onClick={handleAcceptCounter}>Accept</button><button onClick={handleRejectCounter}>Reject</button></div>
+            {/* Right Column: Bidding and Actions Panel */}
+            <div style={{ position: 'sticky', top: '2rem' }}>
+                <div className="auction-card" style={{ padding: '2rem' }}>
+                    <Countdown endTime={auction.endTime} />
+                    <hr style={{ margin: '1.5rem 0' }} />
+                    <div>
+                        <p style={{ color: 'var(--color-text-muted)', margin: 0, fontSize: '1rem' }}>Current Bid</p>
+                        <div className="auction-card-price" style={{ margin: '0.25rem 0 0 0', fontSize: '2.5rem' }}>₹{currentBid}</div>
+                    </div>
+
+                    {/* Bidding Form */}
+                    {!isAuctionOver && !isSeller && (
+                        <form onSubmit={handleBidSubmit} style={{ marginTop: '1.5rem' }}>
+                            <div className="form-group">
+                                <input type="number" value={bidAmount} onChange={(e) => setBidAmount(e.target.value)} placeholder={`Min bid: ₹${Number(currentBid) + Number(auction.bidIncrement)}`} required />
+                            </div>
+                            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '12px', fontSize: '1.1rem' }}>Place Bid</button>
+                        </form>
+                    )}
+                    
+                    {!isAuctionOver && isSeller && <p style={{marginTop: '1.5rem', textAlign: 'center', color: 'var(--color-text-muted)'}}>This is your auction. Bids will appear in real-time.</p>}
                 </div>
-            )}
-            
-            {isAuctionOver && <p style={{ fontWeight: 'bold', marginTop: '20px' }}>Auction Ended</p>}
-            {auction.status === 'closed' && auction.winner && <div>Winner: <strong>{auction.winner.username}</strong> at ₹{auction.currentPrice}</div>}
-            {auction.status === 'rejected' && <p>The bid was rejected.</p>}
-            {auction.status === 'counter-offered' && !isHighestBidder && <p>The seller has made a counter-offer to the highest bidder.</p>}
+
+                {/* Seller Actions */}
+                {isAuctionOver && isSeller && auction.status === 'ended' && (
+                    <ActionBox title="Seller Actions">
+                        <div style={{ display: 'flex', gap: '10px', marginBottom: '1rem' }}><button onClick={handleAcceptBid} className="btn btn-primary">Accept Bid</button><button onClick={handleRejectBid} className="btn btn-secondary">Reject Bid</button></div>
+                        <form onSubmit={handleCounterOffer} className="form-group">
+                            <label>Make a Counter-Offer:</label>
+                            <input type="number" value={counterPrice} onChange={(e) => setCounterPrice(e.target.value)} placeholder="Enter new price" required />
+                            <button type="submit" className="btn btn-primary" style={{marginTop: '0.5rem'}}>Send</button>
+                        </form>
+                    </ActionBox>
+                )}
+
+                {/* Buyer Counter-Offer Response */}
+                {auction.status === 'counter-offered' && isHighestBidder && (
+                    <ActionBox title="Counter-Offer Received">
+                        <p>The seller has offered a price of: <strong>₹{auction.counterOfferPrice}</strong></p>
+                        <div style={{ display: 'flex', gap: '10px' }}><button onClick={handleAcceptCounter} className="btn btn-primary">Accept</button><button onClick={handleRejectCounter} className="btn btn-secondary">Reject</button></div>
+                    </ActionBox>
+                )}
+
+                {/* Final Status Messages */}
+                {auction.status === 'closed' && auction.winner && <ActionBox title="Auction Closed">Winner: <strong>{auction.winner.username}</strong> at ₹{auction.currentPrice}</ActionBox>}
+                {auction.status === 'rejected' && <ActionBox title="Auction Closed">The final bid was rejected.</ActionBox>}
+                {auction.status === 'counter-offered' && !isHighestBidder && (
+                    <ActionBox title="Status">
+                        The seller has made a counter-offer to the highest bidder.
+                    </ActionBox>
+                )}
+            </div>
         </div>
     );
 }
-
 export default AuctionRoomPage;

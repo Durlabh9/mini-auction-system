@@ -36,19 +36,77 @@ function CreateAuctionPage() {
   };
 
   return (
-    <div>
-      <h1>Create a New Auction</h1>
+    <div className="form-container">
       <form onSubmit={handleSubmit}>
-        {/* We'll use a simplified form for now */}
-        <input name="itemName" value={formData.itemName} onChange={handleChange} placeholder="Item Name" required />
-        <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-        <input name="startingPrice" type="number" value={formData.startingPrice} onChange={handleChange} placeholder="Starting Price" required />
-        <input name="bidIncrement" type="number" value={formData.bidIncrement} onChange={handleChange} placeholder="Bid Increment" required />
-        <label>Start Time:</label>
-        <input name="startTime" type="datetime-local" value={formData.startTime} onChange={handleChange} required />
-        <label>End Time:</label>
-        <input name="endTime" type="datetime-local" value={formData.endTime} onChange={handleChange} required />
-        <button type="submit">Create Auction</button>
+        <h1>Create a New Auction</h1>
+        <div className="form-group">
+          <label htmlFor="itemName">Item Name</label>
+          <input
+            type="text"
+            id="itemName"
+            name="itemName"
+            value={formData.itemName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="4"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="startingPrice">Starting Price (₹)</label>
+          <input
+            type="number"
+            id="startingPrice"
+            name="startingPrice"
+            value={formData.startingPrice}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="bidIncrement">Bid Increment (₹)</label>
+          <input
+            type="number"
+            id="bidIncrement"
+            name="bidIncrement"
+            value={formData.bidIncrement}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="startTime">Start Time</label>
+          <input
+            type="datetime-local"
+            id="startTime"
+            name="startTime"
+            value={formData.startTime}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="endTime">End Time</label>
+          <input
+            type="datetime-local"
+            id="endTime"
+            name="endTime"
+            value={formData.endTime}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+          Create Auction
+        </button>
       </form>
     </div>
   );

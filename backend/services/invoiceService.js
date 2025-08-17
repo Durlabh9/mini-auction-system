@@ -17,7 +17,7 @@ export const generateInvoicePDF = (seller, buyer, auction) => {
     doc.moveDown();
     doc.fontSize(12).text(`Auction ID: ${auction.id}`);
     doc.text(`Item: ${auction.itemName}`);
-    doc.text(`Final Price: $${auction.currentPrice}`);
+    doc.text(`Final Price: ₹${auction.currentPrice}`);
     doc.moveDown();
     doc.text('--- Details ---');
     doc.text(`Seller: ${seller.username} (${seller.email})`);

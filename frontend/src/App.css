@@ -1,126 +1,253 @@
-
+/* === Global Styles & Midnight Gold Theme === */
 :root {
-  --primary-color: #0d6efd; 
-  --secondary-color: #6c757d;
-  --background-color: #121212; 
-  --surface-color: #1e1e1e;   
-  --text-color: #e0e0e0;       
-  --border-color: #333;        
-  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --color-primary: #bbc14c; /* Rich Gold */
+  --color-secondary: #ab8f2d; /* Darker Gold for hover */
+  --color-background: #0d1a26; /* Deep Midnight Blue */
+  --color-surface: #1a2938;   /* Slightly lighter blue for cards */
+  --color-text: #f0f0f0;       /* Soft white text */
+  --color-text-muted: #a0a0a0;
+  --color-border: #2a3f52;
+  --color-success: #27ae60;
+  --font-serif: 'Georgia', 'Times New Roman', serif;
+  --font-sans: 'Helvetica Neue', Arial, sans-serif;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.2);
 }
+
 body {
   margin: 0;
-  font-family: var(--font-family);
-  background-color: var(--background-color);
-  color: var(--text-color);
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1.5rem;
 }
 
-a {
-  color: var(--primary-color);
-  text-decoration: none;
+/* === Typography === */
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
-
+/* === Navbar Styling === */
 .navbar {
-  background: var(--surface-color);
-  padding: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  background: var(--color-surface);
+  padding: 0 2rem;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 70px;
 }
 
-.navbar-links a {
-  margin-right: 1rem;
+.navbar-brand {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
 }
 
-.navbar-user {
-  display: flex;
-  align-items: center;
+.navbar-links a, .navbar-user a {
+  margin: 0 1rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.navbar-user span {
-  margin-right: 1rem;
+.navbar-links a:hover, .navbar-user a:hover {
+  color: var(--color-primary);
+  text-decoration: none;
 }
 
-
-button {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 10px 15px;
+/* === Button Styling === */
+.btn {
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.2s;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  border: 1px solid transparent;
+  transition: all 0.2s;
 }
 
-button:hover {
-  background-color: #0056b3;
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #111; /* Dark text on gold button */
 }
 
+.btn-primary:hover {
+  background-color: var(--color-secondary);
+}
 
-form {
-  background: var(--surface-color);
-  padding: 2rem;
+.btn-secondary {
+  background-color: #27ae60;
+  color: var(--color-background);
+}
+
+.btn-secondary:hover {
+  background-color: #7f8c8d;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-primary);
+}
+
+/* === Form Styling === */
+.form-container {
+  background: var(--color-surface);
+  padding: 2.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   max-width: 500px;
-  margin: 2rem auto;
+  margin: 3rem auto;
 }
 
-form div {
-  margin-bottom: 1rem;
+.form-container h1 {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-form label {
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: bold;
+  font-weight: 500;
+  color: var(--color-text-muted);
 }
 
-form input, form textarea {
+.form-group input, .form-group textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border-color);
+  padding: 12px;
+  border: 1px solid var(--color-border);
   border-radius: 5px;
   font-size: 1rem;
   box-sizing: border-box;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.form-group input:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+/* === Hero Section Styling === */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 4rem 2rem;
+  background: var(--color-surface);
+  border-radius: 8px;
+  margin-bottom: 3rem;
+}
+
+.hero-content {
+  flex: 1;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.hero-image {
+  flex: 1;
+  max-width: 50%;
+}
+
+.hero-image img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+}
+
+/* === Featured Auctions Section Styling === */
+.featured-auctions {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* === Auction Card Styling === */
 .auction-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
 }
 
 .auction-card {
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
 }
 
 .auction-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 
-.auction-card h2 {
-  margin-top: 0;
+.auction-card-image {
+  height: 220px;
+  background-color: #f0f0f0;
 }
-html {
-  scroll-behavior: smooth;
+
+.auction-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.auction-card-content {
+  padding: 1.5rem;
+}
+
+.auction-card-content h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  color: var(--color-text); /* White text for card titles */
+}
+
+.auction-card-content p {
+  margin: 0.5rem 0;
+  color: var(--color-text-muted);
+}
+
+.auction-card-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  margin-top: 1rem;
 }

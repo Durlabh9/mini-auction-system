@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , Link} from 'react-router-dom';
 import api from '../api';
 
 function RegisterPage() {
@@ -28,41 +28,49 @@ function RegisterPage() {
     }
   };
 
-  return (
-    <div>
-      <h1>Register</h1>
+return (
+    <div className="form-container">
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
+        <h1>Create an Account</h1>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
           <input
             type="text"
+            id="username"
             name="username"
             value={formData.username}
             onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <label>Email:</label>
+        <div className="form-group">
+          <label htmlFor="email">Email Address</label>
           <input
             type="email"
+            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             required
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+          Register
+        </button>
+        <p style={{ textAlign: 'center', marginTop: '1rem' }}>
+          Already have an account? <Link to="/login">Login here</Link>
+        </p>
       </form>
     </div>
   );

@@ -32,31 +32,38 @@ function LoginPage() {
     }
   };
 
-  return (
-    <div>
-      <h1>Login</h1>
+ return (
+    <div className="form-container">
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
+        <h1>Login</h1>
+        <div className="form-group">
+          <label htmlFor="email">Email Address</label>
           <input
             type="email"
+            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+          Login
+        </button>
+        <p style={{ textAlign: 'center', marginTop: '1rem' }}>
+          Don't have an account? <Link to="/register">Register here</Link>
+        </p>
       </form>
     </div>
   );

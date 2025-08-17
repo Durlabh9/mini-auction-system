@@ -14,19 +14,21 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-links">
-        <Link to="/">Home</Link>
+        <Link to="/" className="navbar-brand">Auctioneer</Link>
         <Link to="/create-auction">Create Auction</Link>
       </div>
       <div className="navbar-user">
         {user ? (
           <>
-            <span style={{ marginRight: '1rem' }}>Welcome, {user.username}!</span>
-            <button onClick={handleLogout}>Logout</button>
+            <span style={{ marginRight: '1rem', color: 'var(--color-text-muted)' }}>
+              Welcome, {user.username}!
+            </span>
+            <button onClick={handleLogout} className="btn btn-primary">Logout</button>
           </>
         ) : (
           <>
-            <Link to="/login" style={{ marginRight: '1rem' }}>Login</Link>
-            <Link to="/register">Register</Link>
+            <Link to="/login" className="btn btn-ghost">Login</Link>
+            <Link to="/register" className="btn btn-primary">Register</Link>
           </>
         )}
       </div>
