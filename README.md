@@ -62,19 +62,19 @@ npm install
 Environment Variables
 You will need to create accounts for the following services and add your credentials to the backend/.env file:
 
-# Supabase PostgreSQL Connection URL (use the Connection Pooler string)
+* Supabase PostgreSQL Connection URL (use the Connection Pooler string)
 DATABASE_URL="postgres://..."
 
-# Upstash Redis Connection URL
+* Upstash Redis Connection URL
 REDIS_URL="redis://..."
 
-# SendGrid API Key
+* SendGrid API Key
 SENDGRID_API_KEY="SG.your-key"
 
-# JWT Secret for signing tokens (use a long, random string)
+* JWT Secret for signing tokens (use a long, random string)
 JWT_SECRET="your_super_secret_string"
 
-# Port for the backend server
+* Port for the backend server
 PORT=3001
 
 Running the Application
