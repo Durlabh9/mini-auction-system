@@ -88,6 +88,7 @@ You need to run two servers concurrently in separate terminals.
 The application will be available at http://localhost:5173.
 
 🚢 Deployment
+
 This application is configured for seamless deployment on Render using a multi-stage Dockerfile.
  * The frontend and backend are bundled into a single container.
  * On every push to the main branch, a GitHub Action automatically triggers a new deployment via a Deploy Hook.
