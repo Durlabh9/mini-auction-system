@@ -1,7 +1,9 @@
 # Project description and setup instructions
 🚀 Mini Auction System (Real-Time Bidding)
+
 This is a full-stack, real-time auction platform where users can create and view auctions, place bids instantly, and manage post-auction decisions. The application is built with a modern tech stack, featuring a Node.js backend, a React frontend, and real-time communication managed by WebSockets and Redis.
 The entire application is containerized with Docker and deployed on Render.
+
 ✨ Features
  * User Authentication: Secure user registration and login using JWTs.
  * Auction Creation: Logged-in users can create detailed auctions, specifying item name, description, starting price, bid increment, and duration.
@@ -20,6 +22,7 @@ The entire application is containerized with Docker and deployed on Render.
    * ❌ Reject a counter-offer.
  * Automated Invoices & Emails: Upon a successful auction (bid accepted directly or via counter-offer), PDF invoices are automatically generated and emailed to both the buyer and the seller via SendGrid.
  * Professional UI: A clean, modern, and responsive user interface with a sophisticated dark theme.
+
 🛠️ Tech Stack
  * Frontend: React.js, Vite, Socket.IO Client
  * Backend: Node.js, Express.js
@@ -29,6 +32,7 @@ The entire application is containerized with Docker and deployed on Render.
  * Email Service: SendGrid for transactional emails
  * Deployment: Docker & Render.com
  * CI/CD: GitHub Actions for automated deployments on push to main.
+
 🏁 Getting Started
 To get a local copy up and running, follow these simple steps.
 Prerequisites
@@ -36,9 +40,11 @@ Prerequisites
  * npm
  * Git
  * Docker (optional, for local container testing)
+
 Installation
  * Clone the repo
    git clone https://github.com/Durlabh9/mini-auction-system.git
+
 cd mini-auction-system
 
  * Install Backend Dependencies
@@ -52,8 +58,10 @@ npm install
  * Set Up Environment Variables
    * In the backend folder, create a .env file.
    * Copy the contents of .env.example (if provided) or add the variables listed below.
+
 Environment Variables
 You will need to create accounts for the following services and add your credentials to the backend/.env file:
+
 # Supabase PostgreSQL Connection URL (use the Connection Pooler string)
 DATABASE_URL="postgres://..."
 
@@ -78,6 +86,7 @@ You need to run two servers concurrently in separate terminals.
    npm run dev
 
 The application will be available at http://localhost:5173.
+
 🚢 Deployment
 This application is configured for seamless deployment on Render using a multi-stage Dockerfile.
  * The frontend and backend are bundled into a single container.
