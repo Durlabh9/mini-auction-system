@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
+const getFormattedDateTime = (date) => {
+  const pad = (num) => num.toString().padStart(2, '0');
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
 
 function CreateAuctionPage() {
+  const now = new Date();
+  // Set a default end time for 1 day later
+  const defaultEndTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
   const [formData, setFormData] = useState({
     itemName: '',
     description: '',
     startingPrice: '',
     bidIncrement: '',
-    startTime: '',
-    endTime: '',
+    startTime:getFormattedDateTime(now),
+    endTime: getFormattedDateTime(defaultEndTime),
   });
   const navigate = useNavigate();
 

@@ -66,6 +66,7 @@ h1, h2, h3 {
   text-decoration: none;
 }
 
+
 /* === Button Styling === */
 .btn {
   padding: 10px 20px;
@@ -145,7 +146,9 @@ h1, h2, h3 {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
 }
-
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
 /* === Hero Section Styling === */
 .hero {
   display: flex;

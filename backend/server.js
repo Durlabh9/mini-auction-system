@@ -30,7 +30,10 @@ app.use((req, res, next) => {
 });
 app.use('/api/auth', authRoutes); 
 app.use('/api/auctions', auctionRoutes);
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 const startServer = async () => {
   try {
     await sequelize.authenticate();
@@ -42,15 +45,6 @@ const startServer = async () => {
     console.error('❌ Unable to connect to or sync the database:', error);
   }
 };
-
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/api/auth', authRoutes);
-app.use('/api/auctions', auctionRoutes);
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
 httpServer.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
